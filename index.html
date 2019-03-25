@@ -1,0 +1,168 @@
+<html>
+<head>
+  <script src="jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+  <style>
+    
+    #spin {
+      font-family: 'Space Mono', monospace;
+      font-weight: bold;
+      font-size: 300%;
+    }
+    
+    #spin:after {
+      content:"[conversas]";
+      animation: spin 2.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { content:"[conversas]"; }
+      25% { content:"[131-140]"; }
+      50% { content:"[coordinates]"; }
+      75% { content:"[calculator]"; }
+    }
+    
+    #c {
+      width: 401px;
+      height: 401px;
+    }
+    
+    .font {
+      font-family: 'Space Mono', monospace;
+      /*font-weight: bold;*/
+    } 
+    
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      /*border-bottom: 2px solid black;*/
+    }
+    
+    input[type=submit] {
+      background-color: black;
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-decoration: none;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    
+    a:hover {
+      font-style: italic;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+  </style>
+</head>
+<body>
+  <a class="font" href="about.html"> about </a>
+  <p class="centrato"><span id="spin"></span></p>
+  
+  <form id="doms">
+    <label for="dom1" class="font">#1. i love feeling lost because</label>
+    <input type="text" id="dom1" name="dom1" class="font" placeholder="...">
+    <label for="dom2" class="font">#2. i hate feeling lost because</label>
+    <input type="text" id="dom2" name="dom2" class="font" placeholder="...">
+    <input type="submit" value="calculate" class="font">
+    <div class="font"> your conversas coordinates are [<span id="coord-x">x</span> ; <span id="coord-y">y</span>] </div>
+  </form>
+  
+  <canvas id="c" width="401px" height="401px" ></canvas>
+  
+  <script>
+    function drawCanvas(coordX, coordY) {
+      var unit = 40;
+      var c_canvas = document.getElementById("c");
+      var context = c_canvas.getContext("2d");
+      context.clearRect(0, 0, c_canvas.width, c_canvas.height);
+      
+      context.beginPath();
+      
+      for (var x = 0.5; x < 401; x += 40) {
+        context.moveTo(x, 0);
+        context.lineTo(x, 401);
+      }
+      
+      for (var y = 0.5; y < 401; y += 40) {
+        context.moveTo(0, y);
+        context.lineTo(401, y);
+      }
+      
+      context.moveTo(0,0);
+      
+      
+      context.strokeStyle = "#ddd";
+      context.stroke();
+      
+      if(coordX && coordY) {
+        context.beginPath();
+        context.arc(unit * coordX, unit * coordY, 20, 0, 2 * Math.PI, false);
+        context.fillStyle = 'red';
+        context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = '#003300';
+        context.stroke();
+      }
+    }
+    
+    function sumBuffer(buffer) {
+      const byteArray = new Uint8Array(buffer);
+      
+      return byteArray.reduce(function(prev, current) {
+        prev = prev + current;
+        return prev;
+      })
+    }
+    
+    function reduceNumer(value) {
+      var sum = 0;
+      
+      while (value) {
+        sum += value % 10;
+        value = Math.floor(value / 10);
+      }
+      
+      if(sum >= 10) {
+        return reduceNumer(sum);
+      }
+      
+      return sum;
+    }
+    
+    function digestMessage(message) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(message);
+      return window.crypto.subtle.digest('SHA-256', data);
+    }
+    
+    function computerHash(id, text) {
+      return digestMessage(text).then(digestValue => {
+        var x = reduceNumer(sumBuffer(digestValue));
+        document.getElementById(id).textContent = x;
+        return x;
+      });
+    }
+    
+    function computePoints() {
+      Promise.all([
+      computerHash('coord-x', '1 ' + document.getElementById('dom1').value),
+      computerHash('coord-y', '2 ' + document.getElementById('dom2').value)
+      ]).then(results => {
+        drawCanvas(results[0], results[1]);
+      })
+    }
+    
+    drawCanvas()
+    
+    document.getElementById("doms").addEventListener("submit", function(event){
+      event.preventDefault()
+      computePoints();
+    });
+  </script>
+</body>
+
+</html>

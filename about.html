@@ -1,0 +1,59 @@
+<html>
+<head>
+  <script src="jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+  <style>
+    
+    #spin {
+      font-family: 'Space Mono', monospace;
+      font-weight: bold;
+      font-size: 300%;
+    }
+    
+    #spin:after {
+      content:"[conversas]";
+      animation: spin 2.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { content:"[conversas]"; }
+      25% { content:"[131-140]"; }
+      50% { content:"[coordinates]"; }
+      75% { content:"[calculator]"; }
+    }
+    
+    .font {
+      font-family: 'Space Mono', monospace;
+      /*font-weight: bold;*/
+    }
+    
+    .testo {
+      font-family: 'Space Mono', monospace;
+    }
+    
+    a:hover {
+      font-style: italic;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+  </style>
+</head>
+<body>
+  <a class="font" href="index.html"> home </a>
+  <p ><span id="spin"></span></p>
+  
+  <p class="testo" > qui metter&ograve; la descrizione del concept<br>
+    ///<br>
+    qui metter&ograve; cos'&egrave; conversas<br>
+    ///<br>
+    concept: michele pedrazzini<br>
+    web development: giulio montagner
+  </p>
+  
+  
+  <script>
+    
+  </script>
+</body>
+
+</html>
