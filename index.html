@@ -1,9 +1,14 @@
 <html>
+
 <head>
-  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
   <style>
-    
+
+    a:visited { 
+      color: blue;
+    }
+
     .spin {
       font-family: 'Space Mono', monospace;
       font-weight: bold;
@@ -11,44 +16,54 @@
       position: absolute;
     }
 
-    .centrato {
+    .titolo {
       height: 80px;
     }
-    
+
     .spin {
       animation: alternate1st 2.5s linear infinite;
       visibility: hidden;
     }
-    
+
     @keyframes alternate1st {
-      0% { visibility: visible; }
-      25% { visibility: hidden; }
-      50% { visibility: hidden; }
-      75% { visibility: hidden; }
+      0% {
+        visibility: visible;
+      }
+
+      25% {
+        visibility: hidden;
+      }
+
+      50% {
+        visibility: hidden;
+      }
+
+      75% {
+        visibility: hidden;
+      }
     }
-    
+
     #title2nd {
-      animation-delay:0.625s;
+      animation-delay: 0.625s;
     }
 
     #title3rd {
-      animation-delay:1.25s;
+      animation-delay: 1.25s;
     }
 
     #title4th {
-      animation-delay:1.875s;
+      animation-delay: 1.875s;
     }
-    
+
     #c {
       width: 401px;
       height: 401px;
     }
-    
+
     .font {
       font-family: 'Space Mono', monospace;
-      /*font-weight: bold;*/
-    } 
-    
+    }
+
     input[type=text] {
       width: 100%;
       padding: 12px 20px;
@@ -57,7 +72,7 @@
       border: none;
       /*border-bottom: 2px solid black;*/
     }
-    
+
     input[type=submit] {
       background-color: black;
       border: none;
@@ -66,45 +81,59 @@
       text-decoration: none;
       margin: 4px 2px;
       cursor: pointer;
+      -webkit-appearance: none;
+      border-radius: 0;
     }
-    
+
     a:hover {
       font-style: italic;
       cursor: pointer;
       text-decoration: underline;
     }
-    
+
     @media (min-width: 320px) and (max-width: 480px) {
+      .spin {
+        font-size: 200%;
+      }
+
+      .titolo {
+        height: 50px;
+      }
+
       #c {
         width: 300px;
         height: 300px;
       }
-      
+
       .canvas-container {
         text-align: center;
         width: 100%;
       }
-      
+
       .submit-container {
         text-align: center;
       }
-      
-      .submit-container > input {
-         font-size: 1em;  
-      }   
+
+      .submit-container>input {
+        font-size: 1em;
+      }
+
+      .coordinates {
+        text-align: center;
+      }
     }
-    
   </style>
 </head>
+
 <body>
   <a class="font" href="about.html"> about </a>
-  <p class="centrato">
+  <p class="titolo">
     <span id="title1st" class="spin">[conversas]</span>
     <span id="title2nd" class="spin">[131-140]</span>
     <span id="title3rd" class="spin">[coordinates]</span>
     <span id="title4th" class="spin">[calculator]</span>
   </p>
-  
+
   <form id="doms">
     <label for="dom1" class="font">#1. i love feeling lost because</label>
     <input type="text" id="dom1" name="dom1" class="font" placeholder="...">
@@ -113,9 +142,9 @@
     <div class="submit-container">
       <input type="submit" value="calculate" class="font">
     </div>
-    <div class="font"> your conversas coordinates are [<span id="coord-x">x</span> ; <span id="coord-y">y</span>] </div>
+    <div class="font coordinates"> your conversas coordinates are [<span id="coord-x">x</span> ; <span id="coord-y">y</span>] </div>
   </form>
-  
+
   <div class="canvas-container">
     <canvas id="c"></canvas>
   </div>
@@ -125,78 +154,78 @@
       var unit = 40;
       var c_canvas = document.getElementById("c");
       var context = c_canvas.getContext("2d");
-      
+
       var size = 401;
-      
+
       // Set actual size in memory (scaled to account for extra pixel density).
       var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
       var sizeScaled = size * scale;
       var unitScaled = unit * scale;
       c_canvas.width = sizeScaled;
       c_canvas.height = sizeScaled;
-      
+
       // Clear old canvas
       context.clearRect(0, 0, c_canvas.width, c_canvas.height);
-      
+
       context.beginPath();
-      
-      for (var x = 0.5; x < sizeScaled ; x += unitScaled) {
+      context.lineWidth = 1 * scale;
+      for (var x = 0.5; x < sizeScaled; x += unitScaled) {
         context.moveTo(x, 0);
         context.lineTo(x, sizeScaled);
       }
-      
+
       for (var y = 0.5; y < sizeScaled; y += unitScaled) {
         context.moveTo(0, y);
         context.lineTo(sizeScaled, y);
       }
-      
-      context.moveTo(0,0);
-      
-      
+
+      context.moveTo(0, 0);
+
+
       context.strokeStyle = "#ddd";
       context.stroke();
-      
-      if(coordX && coordY) {
+
+      if (coordX && coordY) {
         context.beginPath();
         context.arc(unitScaled * coordX, unitScaled * coordY, 20 * scale, 0, 2 * Math.PI, false);
-        context.fillStyle = 'red';
+        context.fillStyle = 'black';
         context.fill();
         context.lineWidth = 1 * scale;
         context.strokeStyle = '#003300';
         context.stroke();
       }
     }
-    
+
     function sumBuffer(buffer) {
       const byteArray = new Uint8Array(buffer);
-      
-      return byteArray.reduce(function(prev, current) {
+
+      return byteArray.reduce(function (prev, current) {
         prev = prev + current;
         return prev;
       })
     }
-    
+
     function reduceNumer(value) {
       var sum = 0;
-      
+
       while (value) {
         sum += value % 10;
         value = Math.floor(value / 10);
       }
-      
-      if(sum >= 10) {
+
+      if (sum >= 10) {
         return reduceNumer(sum);
       }
-      
+
       return sum;
     }
-    
+
     function digestMessage(message) {
       const encoder = new TextEncoder();
       const data = encoder.encode(message);
       return window.crypto.subtle.digest('SHA-256', data);
     }
-    
+
     function computerHash(id, text) {
       return digestMessage(text).then(digestValue => {
         var x = reduceNumer(sumBuffer(digestValue));
@@ -204,19 +233,19 @@
         return x;
       });
     }
-    
+
     function computePoints() {
       Promise.all([
-      computerHash('coord-x', '1 ' + document.getElementById('dom1').value),
-      computerHash('coord-y', '2 ' + document.getElementById('dom2').value)
+        computerHash('coord-x', '1 ' + document.getElementById('dom1').value),
+        computerHash('coord-y', '2 ' + document.getElementById('dom2').value)
       ]).then(results => {
         drawCanvas(results[0], results[1]);
       })
     }
-    
+
     drawCanvas()
-    
-    document.getElementById("doms").addEventListener("submit", function(event){
+
+    document.getElementById("doms").addEventListener("submit", function (event) {
       event.preventDefault()
       computePoints();
     });

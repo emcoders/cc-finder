@@ -1,58 +1,106 @@
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
   <style>
-    
-    #spin {
+    a:visited {
+      color: blue;
+    }
+
+    .spin {
       font-family: 'Space Mono', monospace;
       font-weight: bold;
       font-size: 300%;
+      position: absolute;
     }
-    
-    #spin:after {
-      content:"[conversas]";
-      animation: spin 2.5s linear infinite;
+
+    .titolo {
+      height: 80px;
     }
-    @keyframes spin {
-      0% { content:"[conversas]"; }
-      25% { content:"[131-140]"; }
-      50% { content:"[coordinates]"; }
-      75% { content:"[calculator]"; }
+
+    .spin {
+      animation: alternate1st 2.5s linear infinite;
+      visibility: hidden;
     }
-    
+
+    @keyframes alternate1st {
+      0% {
+        visibility: visible;
+      }
+
+      25% {
+        visibility: hidden;
+      }
+
+      50% {
+        visibility: hidden;
+      }
+
+      75% {
+        visibility: hidden;
+      }
+    }
+
+    #title2nd {
+      animation-delay: 0.625s;
+    }
+
+    #title3rd {
+      animation-delay: 1.25s;
+    }
+
+    #title4th {
+      animation-delay: 1.875s;
+    }
+
     .font {
       font-family: 'Space Mono', monospace;
       /*font-weight: bold;*/
     }
-    
+
     .testo {
       font-family: 'Space Mono', monospace;
     }
-    
+
     a:hover {
       font-style: italic;
       cursor: pointer;
       text-decoration: underline;
     }
-    
+
+    @media (min-width: 320px) and (max-width: 480px) {
+      .spin {
+        font-size: 200%;
+      }
+
+      .titolo {
+        height: 50px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <a class="font" href="index.html"> home </a>
-  <p ><span id="spin"></span></p>
-  
-  <p class="testo" > qui metter&ograve; la descrizione del concept<br>
+  <p class="titolo">
+    <span id="title1st" class="spin">[conversas]</span>
+    <span id="title2nd" class="spin">[131-140]</span>
+    <span id="title3rd" class="spin">[coordinates]</span>
+    <span id="title4th" class="spin">[calculator]</span>
+  </p>
+
+  <p class="testo"> qui metter&ograve; la descrizione del concept<br>
     ///<br>
     qui metter&ograve; cos'&egrave; conversas<br>
     ///<br>
     concept: michele pedrazzini<br>
     web development: giulio montagner
   </p>
-  
-  
+
+
   <script>
-    
+
   </script>
 </body>
 
