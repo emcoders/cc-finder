@@ -1,0 +1,84 @@
+.spin {
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    font-size: 300%;
+    position: absolute;
+}
+
+.titolo {
+    height: 80px;
+}
+
+.spin {
+    animation: alternate1st 2.5s linear infinite;
+    -webkit-animation: alternate1st 2.5s linear infinite;
+    visibility: hidden;
+}
+
+@keyframes alternate1st {
+    0% {
+        visibility: visible;
+    }
+    25% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    75% {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes alternate1st {
+    0% {
+        visibility: visible;
+    }
+    25% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    75% {
+        visibility: hidden;
+    }
+}
+
+#title2nd {
+    animation-delay: 0.625s;
+    -webkit-animation-delay: 0.625s;
+}
+
+#title3rd {
+    animation-delay: 1.25s;
+    -webkit-animation-delay: 1.25s;
+}
+
+#title4th {
+    animation-delay: 1.875s;
+    -webkit-animation-delay: 1.875s;
+}
+
+.font {
+    font-family: 'Space Mono', monospace;
+}
+
+a:hover {
+    font-style: italic;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: blue;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .spin {
+        font-size: 200%;
+    }
+    .titolo {
+        height: 50px;
+    }
+}
