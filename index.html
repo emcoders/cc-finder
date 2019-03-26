@@ -106,12 +106,7 @@
       }
 
       .canvas-container {
-        text-align: center;
         width: 100%;
-      }
-
-      .submit-container {
-        text-align: center;
       }
 
       .submit-container>input {
@@ -119,7 +114,7 @@
       }
 
       .coordinates {
-        text-align: center;
+        display: block;
       }
     }
   </style>
@@ -142,7 +137,7 @@
     <div class="submit-container">
       <input type="submit" value="calculate" class="font">
     </div>
-    <div class="font coordinates"> your conversas coordinates are [<span id="coord-x">x</span> ; <span id="coord-y">y</span>] </div>
+    <div class="font"> your conversas coordinates are <span class="coordinates"></span>[<span id="coord-x">x</span> ; <span id="coord-y">y</span>]</span> </div>
   </form>
 
   <div class="canvas-container">
