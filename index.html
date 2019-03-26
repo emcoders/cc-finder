@@ -1,5 +1,6 @@
 <html>
 <head>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
   <style>
     
@@ -55,6 +56,26 @@
       text-decoration: underline;
     }
     
+    @media (min-width: 320px) and (max-width: 480px) {
+      #c {
+        width: 300px;
+        height: 300px;
+      }
+      
+      .canvas-container {
+        text-align: center;
+        width: 100%;
+      }
+      
+      .submit-container {
+        text-align: center;
+      }
+      
+      .submit-container > input {
+         font-size: 1em;  
+      }   
+    }
+    
   </style>
 </head>
 <body>
@@ -66,29 +87,44 @@
     <input type="text" id="dom1" name="dom1" class="font" placeholder="...">
     <label for="dom2" class="font">#2. i hate feeling lost because</label>
     <input type="text" id="dom2" name="dom2" class="font" placeholder="...">
-    <input type="submit" value="calculate" class="font">
+    <div class="submit-container">
+      <input type="submit" value="calculate" class="font">
+    </div>
     <div class="font"> your conversas coordinates are [<span id="coord-x">x</span> ; <span id="coord-y">y</span>] </div>
   </form>
   
-  <canvas id="c" width="401px" height="401px" ></canvas>
-  
+  <div class="canvas-container">
+    <canvas id="c"></canvas>
+  </div>
+
   <script>
     function drawCanvas(coordX, coordY) {
       var unit = 40;
       var c_canvas = document.getElementById("c");
       var context = c_canvas.getContext("2d");
+      
+      var size = 401;
+      
+      // Set actual size in memory (scaled to account for extra pixel density).
+      var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+      var sizeScaled = size * scale;
+      var unitScaled = unit * scale;
+      c_canvas.width = sizeScaled;
+      c_canvas.height = sizeScaled;
+      
+      // Clear old canvas
       context.clearRect(0, 0, c_canvas.width, c_canvas.height);
       
       context.beginPath();
       
-      for (var x = 0.5; x < 401; x += 40) {
+      for (var x = 0.5; x < sizeScaled ; x += unitScaled) {
         context.moveTo(x, 0);
-        context.lineTo(x, 401);
+        context.lineTo(x, sizeScaled);
       }
       
-      for (var y = 0.5; y < 401; y += 40) {
+      for (var y = 0.5; y < sizeScaled; y += unitScaled) {
         context.moveTo(0, y);
-        context.lineTo(401, y);
+        context.lineTo(sizeScaled, y);
       }
       
       context.moveTo(0,0);
@@ -99,10 +135,10 @@
       
       if(coordX && coordY) {
         context.beginPath();
-        context.arc(unit * coordX, unit * coordY, 20, 0, 2 * Math.PI, false);
+        context.arc(unitScaled * coordX, unitScaled * coordY, 20 * scale, 0, 2 * Math.PI, false);
         context.fillStyle = 'red';
         context.fill();
-        context.lineWidth = 1;
+        context.lineWidth = 1 * scale;
         context.strokeStyle = '#003300';
         context.stroke();
       }
