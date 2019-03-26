@@ -4,21 +4,39 @@
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
   <style>
     
-    #spin {
+    .spin {
       font-family: 'Space Mono', monospace;
       font-weight: bold;
       font-size: 300%;
+      position: absolute;
+    }
+
+    .centrato {
+      height: 80px;
     }
     
-    #spin:after {
-      content:"[conversas]";
-      animation: spin 2.5s linear infinite;
+    .spin {
+      animation: alternate1st 2.5s linear infinite;
+      visibility: hidden;
     }
-    @keyframes spin {
-      0% { content:"[conversas]"; }
-      25% { content:"[131-140]"; }
-      50% { content:"[coordinates]"; }
-      75% { content:"[calculator]"; }
+    
+    @keyframes alternate1st {
+      0% { visibility: visible; }
+      25% { visibility: hidden; }
+      50% { visibility: hidden; }
+      75% { visibility: hidden; }
+    }
+    
+    #title2nd {
+      animation-delay:0.625s;
+    }
+
+    #title3rd {
+      animation-delay:1.25s;
+    }
+
+    #title4th {
+      animation-delay:1.875s;
     }
     
     #c {
@@ -80,7 +98,12 @@
 </head>
 <body>
   <a class="font" href="about.html"> about </a>
-  <p class="centrato"><span id="spin"></span></p>
+  <p class="centrato">
+    <span id="title1st" class="spin">[conversas]</span>
+    <span id="title2nd" class="spin">[131-140]</span>
+    <span id="title3rd" class="spin">[coordinates]</span>
+    <span id="title4th" class="spin">[calculator]</span>
+  </p>
   
   <form id="doms">
     <label for="dom1" class="font">#1. i love feeling lost because</label>
