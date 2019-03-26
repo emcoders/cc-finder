@@ -3,86 +3,21 @@
 <head>
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+  <title>Conversas Coordinates</title>
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+  <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="/icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <style>
-    a:visited {
-      color: blue;
-    }
-
-    .spin {
-      font-family: 'Space Mono', monospace;
-      font-weight: bold;
-      font-size: 300%;
-      position: absolute;
-    }
-
-    .titolo {
-      height: 80px;
-    }
-
-    .spin {
-      animation: alternate1st 2.5s linear infinite;
-      -webkit-animation: alternate1st 2.5s linear infinite;
-      visibility: hidden;
-    }
-
-    @keyframes alternate1st {
-      0% {
-        visibility: visible;
-      }
-
-      25% {
-        visibility: hidden;
-      }
-
-      50% {
-        visibility: hidden;
-      }
-
-      75% {
-        visibility: hidden;
-      }
-    }
-
-    @-webkit-keyframes alternate1st {
-      0% {
-        visibility: visible;
-      }
-
-      25% {
-        visibility: hidden;
-      }
-
-      50% {
-        visibility: hidden;
-      }
-
-      75% {
-        visibility: hidden;
-      }
-    }
-
-    #title2nd {
-      animation-delay: 0.625s;
-      -webkit-animation-delay: 0.625s;
-    }
-
-    #title3rd {
-      animation-delay: 1.25s;
-      -webkit-animation-delay: 1.25s;
-    }
-
-    #title4th {
-      animation-delay: 1.875s;
-      -webkit-animation-delay: 1.875s;
-    }
-
     #c {
       width: 401px;
       height: 401px;
-    }
-
-    .font {
-      font-family: 'Space Mono', monospace;
     }
 
     input[type=text] {
@@ -91,7 +26,6 @@
       margin: 8px 0;
       box-sizing: border-box;
       border: none;
-      /*border-bottom: 2px solid black;*/
     }
 
     input[type=submit] {
@@ -104,12 +38,6 @@
       cursor: pointer;
       -webkit-appearance: none;
       border-radius: 0;
-    }
-
-    a:hover {
-      font-style: italic;
-      cursor: pointer;
-      text-decoration: underline;
     }
 
     .browser-warning {
@@ -127,14 +55,6 @@
     }
 
     @media (min-width: 320px) and (max-width: 480px) {
-      .spin {
-        font-size: 200%;
-      }
-
-      .titolo {
-        height: 50px;
-      }
-
       #c {
         width: 300px;
         height: 300px;
@@ -278,7 +198,7 @@
       })
     }
 
-    function reduceNumer(value) {
+    function reduceNumber(value) {
       var sum = 0;
 
       while (value) {
@@ -287,7 +207,7 @@
       }
 
       if (sum >= 10) {
-        return reduceNumer(sum);
+        return reduceNumber(sum);
       }
 
       return sum;
@@ -301,7 +221,7 @@
 
     function computerHash(id, text) {
       return digestMessage(text).then(digestValue => {
-        var x = reduceNumer(sumBuffer(digestValue));
+        var x = reduceNumber(sumBuffer(digestValue));
         document.getElementById(id).textContent = x;
         return x;
       });
