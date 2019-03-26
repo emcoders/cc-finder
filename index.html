@@ -4,8 +4,7 @@
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
   <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
   <style>
-
-    a:visited { 
+    a:visited {
       color: blue;
     }
 
@@ -22,6 +21,7 @@
 
     .spin {
       animation: alternate1st 2.5s linear infinite;
+      -webkit-animation: alternate1st 2.5s linear infinite;
       visibility: hidden;
     }
 
@@ -43,16 +43,37 @@
       }
     }
 
+    @-webkit-keyframes alternate1st {
+      0% {
+        visibility: visible;
+      }
+
+      25% {
+        visibility: hidden;
+      }
+
+      50% {
+        visibility: hidden;
+      }
+
+      75% {
+        visibility: hidden;
+      }
+    }
+
     #title2nd {
       animation-delay: 0.625s;
+      -webkit-animation-delay: 0.625s;
     }
 
     #title3rd {
       animation-delay: 1.25s;
+      -webkit-animation-delay: 1.25s;
     }
 
     #title4th {
       animation-delay: 1.875s;
+      -webkit-animation-delay: 1.875s;
     }
 
     #c {
@@ -91,6 +112,20 @@
       text-decoration: underline;
     }
 
+    .browser-warning {
+      display: block;
+      background-color: rgb(255, 180, 180);
+      color: rgb(110, 0, 0);
+      border: 1px solid rgb(110, 0, 0);
+      font-size: 1.1em;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    .browser-warning.hide {
+      display: none;
+    }
+
     @media (min-width: 320px) and (max-width: 480px) {
       .spin {
         font-size: 200%;
@@ -121,6 +156,10 @@
 </head>
 
 <body>
+  <div id="browser-warning" class="browser-warning">
+    This website works only in modern browsers. Please update your browser or use the latest version of Chrome or
+    Firefox.
+  </div>
   <a class="font" href="about.html"> about </a>
   <p class="titolo">
     <span id="title1st" class="spin">[conversas]</span>
@@ -137,7 +176,8 @@
     <div class="submit-container">
       <input type="submit" value="calculate" class="font">
     </div>
-    <div class="font"> your conversas coordinates are <span class="coordinates"></span>[<span id="coord-x">x</span> ; <span id="coord-y">y</span>]</span> </div>
+    <div class="font"> your conversas coordinates are <span class="coordinates"></span>[<span id="coord-x">x</span> ;
+      <span id="coord-y">y</span>]</span> </div>
   </form>
 
   <div class="canvas-container">
@@ -145,6 +185,44 @@
   </div>
 
   <script>
+    function isCanvasSupported() {
+      var elem = document.createElement('canvas');
+      return !!(elem.getContext && elem.getContext('2d'));
+    }
+
+    function isCryptoSupported() {
+      return window.crypto && window.crypto.subtle && typeof window.crypto.subtle.digest === "function";
+    }
+
+    function isPromiseSupported() {
+      return window.Promise !== undefined;
+    }
+
+    function isAnimationSupported() {
+      var animation = false,
+        animationstring = 'animation',
+        keyframeprefix = '',
+        domPrefixes = 'Webkit'.split(' '),
+        pfx = '',
+        elem = document.createElement('div');
+
+      if (elem.style.animationName !== undefined) { animation = true; }
+
+      if (animation === false) {
+        for (var i = 0; i < domPrefixes.length; i++) {
+          if (elem.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
+            pfx = domPrefixes[i];
+            animationstring = pfx + 'Animation';
+            keyframeprefix = '-' + pfx.toLowerCase() + '-';
+            animation = true;
+            break;
+          }
+        }
+      }
+
+      return animation;
+    }
+
     function drawCanvas(coordX, coordY) {
       var unit = 40;
       var c_canvas = document.getElementById("c");
@@ -238,12 +316,19 @@
       })
     }
 
-    drawCanvas()
+    if (isAnimationSupported()
+      && isCryptoSupported()
+      && isCanvasSupported()
+      && isPromiseSupported()) {
+      document.getElementById('browser-warning').classList.add('hide');
+    }
 
     document.getElementById("doms").addEventListener("submit", function (event) {
       event.preventDefault()
       computePoints();
     });
+
+    drawCanvas()
   </script>
 </body>
 
