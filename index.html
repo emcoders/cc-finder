@@ -16,8 +16,8 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <style>
     #c {
-      width: 401px;
-      height: 401px;
+      width: 421px;
+      height: 421px;
     }
 
     input[type=text] {
@@ -148,47 +148,63 @@
     }
 
     function drawCanvas(coordX, coordY) {
-      var unit = 40;
       var c_canvas = document.getElementById("c");
       var context = c_canvas.getContext("2d");
 
-      var size = 401;
+      var canvasSize = 421;
+      var circleSize = 400;
 
       // Set actual size in memory (scaled to account for extra pixel density).
       var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-      var sizeScaled = size * scale;
-      var unitScaled = unit * scale;
+      var sizeScaled = canvasSize * scale;
       c_canvas.width = sizeScaled;
       c_canvas.height = sizeScaled;
 
       // Clear old canvas
       context.clearRect(0, 0, c_canvas.width, c_canvas.height);
 
-      context.beginPath();
-      context.lineWidth = 1 * scale;
-      for (var x = 0.5; x < sizeScaled; x += unitScaled) {
-        context.moveTo(x, 0);
-        context.lineTo(x, sizeScaled);
+      context.strokeStyle = "black";
+      context.lineWidth = 0.4 * scale;
+
+      var center = sizeScaled/2;
+      var externalRadius = circleSize/2;
+      for (var radius = externalRadius; radius >= externalRadius/10; radius -= externalRadius/9) {
+        context.beginPath();
+        context.arc(center, center, radius * scale, 0, 2*Math.PI);
+        context.stroke();
       }
 
-      for (var y = 0.5; y < sizeScaled; y += unitScaled) {
-        context.moveTo(0, y);
-        context.lineTo(sizeScaled, y);
+      var scaledExternalRadius = externalRadius*scale;
+      var baseCorner = Math.PI*2/9;
+      var cornerOffset = Math.PI/2;
+      for(var i = 0; i < 9; i++) {
+        context.beginPath();
+        context.moveTo(center, center);
+        var iCorner = baseCorner*i-cornerOffset;
+        context.lineTo(Math.cos(iCorner)*scaledExternalRadius+center, Math.sin(iCorner)*scaledExternalRadius+center);
+        context.stroke();
       }
-
-      context.moveTo(0, 0);
-
-
-      context.strokeStyle = "#ddd";
-      context.stroke();
 
       if (coordX && coordY) {
+        var circle = (scaledExternalRadius/9)*(10-coordY);
+        var slice = baseCorner*(coordX-1)-cornerOffset;
+        var x = Math.cos(slice)*circle+center;
+        var y = Math.sin(slice)*circle+center;
+        // external point
         context.beginPath();
-        context.arc(unitScaled * coordX, unitScaled * coordY, 20 * scale, 0, 2 * Math.PI, false);
+        context.arc(x, y, 10 * scale, 0, 2 * Math.PI, false);
+        context.fillStyle = 'transparent';
+        context.fill();
+        context.lineWidth = 3 * scale;
+        context.strokeStyle = 'black';
+        context.stroke();
+        // internal point
+        context.beginPath();
+        context.arc(x, y, 3 * scale, 0, 2 * Math.PI, false);
         context.fillStyle = 'black';
         context.fill();
         context.lineWidth = 1 * scale;
-        context.strokeStyle = '#003300';
+        context.strokeStyle = 'black';
         context.stroke();
       }
     }
